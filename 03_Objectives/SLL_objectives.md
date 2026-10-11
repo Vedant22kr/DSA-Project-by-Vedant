@@ -1,4 +1,4 @@
-#Singly Linked List
+Objectives of Singly Linked List
 
 •	To implement railway coach management using a Singly Linked List.
 
