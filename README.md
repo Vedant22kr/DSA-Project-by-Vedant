@@ -10,7 +10,7 @@ Singly, Doubly and Circular Linked List.
 - [Problem Statement](02_Problem_Statement/problem-statement.md/)
 - [Objectives](03_Objectives/objectives.md/)
 - [Algorithm](04_Algorithm/algorithm.md/)
-- [Flowchart](05_Flowchart/flowchart.png/)
+- [Flowchart](05_Flowchart/)
 - [Output](06_Output/)
 - [Documentation](07_Documentation/Train_Coach_Management_System.pdf/)
 
