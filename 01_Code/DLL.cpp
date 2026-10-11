@@ -5,10 +5,12 @@ using namespace std;
 struct Coach {
     int coachNo;
     string coachType;
+    Coach* prev;
     Coach* next;
 };
 
 Coach* head = NULL;
+Coach* tail = NULL;
 
 void addCoach() {
     Coach* newCoach = new Coach;
@@ -17,33 +19,27 @@ void addCoach() {
     cin >> newCoach->coachNo;
 
     Coach* temp = head;
-
-    if (head != NULL) {
-        do {
-            if (temp->coachNo == newCoach->coachNo) {
-                cout << "Coach number already exists!\n";
-                delete newCoach;
-                return;
-            }
-            temp = temp->next;
-        } while (temp != head);
+    while (temp != NULL) {
+        if (temp->coachNo == newCoach->coachNo) {
+            cout << "Coach number already exists!\n";
+            delete newCoach;
+            return;
+        }
+        temp = temp->next;
     }
 
     cout << "Enter coach type (AC/SL/GEN): ";
     cin >> newCoach->coachType;
 
+    newCoach->prev = NULL;
+    newCoach->next = NULL;
+
     if (head == NULL) {
-        head = newCoach;
-        newCoach->next = head;
+        head = tail = newCoach;
     } else {
-        temp = head;
-
-        while (temp->next != head) {
-            temp = temp->next;
-        }
-
-        temp->next = newCoach;
-        newCoach->next = head;
+        tail->next = newCoach;
+        newCoach->prev = tail;
+        tail = newCoach;
     }
 
     cout << "Coach added successfully!\n";
@@ -60,127 +56,115 @@ void deleteCoach() {
     cin >> number;
 
     Coach* temp = head;
-    Coach* prev = NULL;
-
-    do {
-        if (temp->coachNo == number)
-            break;
-
-        prev = temp;
+    while (temp != NULL && temp->coachNo != number)
         temp = temp->next;
-    } while (temp != head);
 
-    if (temp->coachNo != number) {
+    if (temp == NULL) {
         cout << "Coach not found!\n";
         return;
     }
 
-    if (temp->next == head && temp == head) {
-        head = NULL;
-    } else {
-        if (temp == head) {
-            Coach* last = head;
+    if (temp->prev != NULL)
+        temp->prev->next = temp->next;
+    else
+        head = temp->next;
 
-            while (last->next != head) {
-                last = last->next;
-            }
-
-            head = head->next;
-            last->next = head;
-        } else {
-            prev->next = temp->next;
-        }
-    }
+    if (temp->next != NULL)
+        temp->next->prev = temp->prev;
+    else
+        tail = temp->prev;
 
     delete temp;
     cout << "Coach deleted successfully!\n";
 }
 
 void searchCoach() {
-    if (head == NULL) {
-        cout << "No coaches available!\n";
-        return;
-    }
-
     int number;
     cout << "Enter coach number to search: ";
     cin >> number;
 
     Coach* temp = head;
-
-    do {
+    while (temp != NULL) {
         if (temp->coachNo == number) {
             cout << "Coach found: " << temp->coachNo
                  << " - " << temp->coachType << '\n';
             return;
         }
-
         temp = temp->next;
-    } while (temp != head);
+    }
 
     cout << "Coach not found!\n";
 }
 
-void displayCoaches() {
+void displayForward() {
     if (head == NULL) {
         cout << "No coaches available!\n";
         return;
     }
 
     Coach* temp = head;
+    cout << "\nForward Train: ";
 
-    cout << "\nCircular Train: ";
-
-    do {
+    while (temp != NULL) {
         cout << "[" << temp->coachNo << " "
-             << temp->coachType << "] -> ";
+             << temp->coachType << "] <-> ";
         temp = temp->next;
-    } while (temp != head);
+    }
 
-    cout << "(Back to Head)\n";
+    cout << "NULL\n";
+}
+
+void displayBackward() {
+    if (tail == NULL) {
+        cout << "No coaches available!\n";
+        return;
+    }
+
+    Coach* temp = tail;
+    cout << "\nBackward Train: ";
+
+    while (temp != NULL) {
+        cout << "[" << temp->coachNo << " "
+             << temp->coachType << "] <-> ";
+        temp = temp->prev;
+    }
+
+    cout << "NULL\n";
 }
 
 void countCoaches() {
     int count = 0;
+    Coach* temp = head;
 
-    if (head != NULL) {
-        Coach* temp = head;
-
-        do {
-            count++;
-            temp = temp->next;
-        } while (temp != head);
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
     }
 
     cout << "Total coaches: " << count << '\n';
 }
 
 void freeMemory() {
-    if (head == NULL)
-        return;
-
-    Coach* temp = head->next;
-
-    while (temp != head) {
-        Coach* nextCoach = temp->next;
+    while (head != NULL) {
+        Coach* temp = head;
+        head = head->next;
         delete temp;
-        temp = nextCoach;
     }
 
-    delete head;
-    head = NULL;
+    tail = NULL;
 }
 
 int main() {
     int choice;
 
     do {
-        cout << "\n--- TRAIN COACH MANAGEMENT (CLL) ---\n";
+        cout << "\n--- TRAIN COACH MANAGEMENT (DLL) ---\n";
         cout << "1. Add Coach\n";
         cout << "2. Delete Coach\n";
         cout << "3. Search Coach\n";
-        cout << "4. Display Coaches\n";
-        cout << "5. Count Coaches\n";
+        cout << "4. Display Forward\n";
+        cout << "5. Display Backward\n";
+        cout << "6. Count Coaches\n";
         cout << "0. Exit\n";
         cout << "Enter choice: ";
         cin >> choice;
@@ -199,10 +183,14 @@ int main() {
                 break;
 
             case 4:
-                displayCoaches();
+                displayForward();
                 break;
 
             case 5:
+                displayBackward();
+                break;
+
+            case 6:
                 countCoaches();
                 break;
 
@@ -218,4 +206,4 @@ int main() {
 
     return 0;
 }
-
+0
