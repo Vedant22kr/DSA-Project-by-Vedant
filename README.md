@@ -2,7 +2,7 @@
 
 ## 📌 Project Overview
 A C++ based Train Coach Management System implemented using a
-Singly Linked List.
+Singly, Doubly and Circular Linked List.
 
 ## 📂 Project Contents
 
@@ -20,6 +20,8 @@ Singly Linked List.
 - C++
 - Data Structures
 - Singly Linked List
+- Doubly Linked List
+- Circular Linked List 
 - Dev-C++ / Visual Studio Code
 
 ## 👨‍💻 Project
