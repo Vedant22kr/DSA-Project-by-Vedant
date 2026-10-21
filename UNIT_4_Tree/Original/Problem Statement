@@ -1,1 +1,5 @@
-
+The Binary Search Tree (BST) is a fundamental data structure whose performance depends 
+on the order in which elements are inserted. This project constructs three BSTs using 
+the same set of elements arranged in ascending, descending, and randomly ordered sequences. 
+The heights of these BSTs are calculated and compared to analyze the effect of insertion 
+order on tree structure and performance.
