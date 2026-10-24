@@ -1,0 +1,1 @@
+Develop a C++ program to represent a smart-city road network as a weighted graph with non-negative distances. Apply Dijkstra’s algorithm from a user-selected junction, display the shortest distances to all reachable junctions in ascending order, and show the shortest path to a selected junction.
